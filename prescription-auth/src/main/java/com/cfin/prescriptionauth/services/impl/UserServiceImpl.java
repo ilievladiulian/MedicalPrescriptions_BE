@@ -14,6 +14,11 @@ import com.cfin.prescriptionauth.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -47,8 +52,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean authorizeUser(AuthenticatedUserDTO authenticatedUserDTO) {
+	public boolean authorizeUser(AuthenticatedUserDTO authenticatedUserDTO) throws ParseException {
+		UserLogin userLogin = this.userLoginRepository.findByReferencedUserUsernameAndToken(authenticatedUserDTO.getUsername(), authenticatedUserDTO.getToken());
+		if (userLogin != null) {
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = format.parse(userLogin.getTokenExpireTime());
 
+			return new Date().compareTo(date) < 1;
+		}
 		return false;
 	}
 

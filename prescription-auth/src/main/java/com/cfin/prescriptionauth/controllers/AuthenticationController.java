@@ -24,7 +24,11 @@ public class AuthenticationController {
 	@PostMapping("/users/authorize")
 	@CrossOrigin
 	public boolean isUserAuthenticated(@RequestBody AuthenticatedUserDTO authenticatedUserDTO) {
-		return this.userService.authorizeUser(authenticatedUserDTO);
+		try {
+			return this.userService.authorizeUser(authenticatedUserDTO);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@PostMapping("/users/register")
