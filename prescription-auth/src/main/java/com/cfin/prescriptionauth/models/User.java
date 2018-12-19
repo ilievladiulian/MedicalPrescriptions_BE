@@ -2,7 +2,12 @@ package com.cfin.prescriptionauth.models;
 
 import javax.persistence.*;
 
-@Entity
+/**
+ *  <p>
+ *      Custom name for this table was needed as a workaround against reserved names conflicts in postgres
+ *  </p>
+ */
+@Entity(name = "user_table")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
