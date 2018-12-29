@@ -1,5 +1,6 @@
 package com.cfin.prescriptionauth.controllers;
 
+import com.cfin.prescriptionauth.dtos.AuthResponse;
 import com.cfin.prescriptionauth.dtos.AuthenticatedUserDTO;
 import com.cfin.prescriptionauth.dtos.ClientDTO;
 import com.cfin.prescriptionauth.dtos.UserDTO;
@@ -23,11 +24,14 @@ public class AuthenticationController {
 
 	@PostMapping("/users/authorize")
 	@CrossOrigin
-	public boolean isUserAuthenticated(@RequestBody AuthenticatedUserDTO authenticatedUserDTO) {
+	public AuthResponse isUserAuthenticated(@RequestBody AuthenticatedUserDTO authenticatedUserDTO) {
 		try {
 			return this.userService.authorizeUser(authenticatedUserDTO);
 		} catch (Exception e) {
-			return false;
+			AuthResponse authResponse = new AuthResponse();
+			authResponse.setUsername(authenticatedUserDTO.getUsername());
+			authResponse.setAuthorized(false);
+			return authResponse;
 		}
 	}
 

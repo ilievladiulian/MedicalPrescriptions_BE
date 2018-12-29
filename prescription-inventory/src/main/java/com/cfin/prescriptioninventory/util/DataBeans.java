@@ -25,9 +25,15 @@ public class DataBeans {
 
 	@PostConstruct
 	public void init() {
-		this.initMedicine();
-		this.initPharmacy();
-		this.initInventory();
+		if (this.pharmacyRepository.count() < 1) {
+			this.initPharmacy();
+		}
+		if (this.medicineRepository.count() < 1) {
+			this.initMedicine();
+		}
+		if (this.inventoryRepository.count() < 1) {
+			this.initInventory();
+		}
 	}
 
 	private void initMedicine() {

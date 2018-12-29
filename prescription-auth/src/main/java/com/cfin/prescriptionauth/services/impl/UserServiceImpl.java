@@ -1,5 +1,6 @@
 package com.cfin.prescriptionauth.services.impl;
 
+import com.cfin.prescriptionauth.dtos.AuthResponse;
 import com.cfin.prescriptionauth.dtos.AuthenticatedUserDTO;
 import com.cfin.prescriptionauth.dtos.ClientDTO;
 import com.cfin.prescriptionauth.dtos.UserDTO;
@@ -52,15 +53,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean authorizeUser(AuthenticatedUserDTO authenticatedUserDTO) throws ParseException {
+	public AuthResponse authorizeUser(AuthenticatedUserDTO authenticatedUserDTO) throws ParseException {
 		UserLogin userLogin = this.userLoginRepository.findByReferencedUserUsernameAndToken(authenticatedUserDTO.getUsername(), authenticatedUserDTO.getToken());
+		AuthResponse authResponse = new AuthResponse();
+		authResponse.setAuthorized(false);
+		authResponse.setUsername(authenticatedUserDTO.getUsername());
 		if (userLogin != null) {
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = format.parse(userLogin.getTokenExpireTime());
-
-			return new Date().compareTo(date) < 1;
+			authResponse.setAuthorized(new Date().compareTo(date) < 1);
 		}
-		return false;
+		return authResponse;
 	}
 
 	@Override
