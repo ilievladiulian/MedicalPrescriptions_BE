@@ -1,9 +1,12 @@
 package com.cfin.prescriptioninventory.util;
 
 import com.cfin.prescriptioninventory.dtos.MedicineDTO;
+import com.cfin.prescriptioninventory.dtos.MedicineWithQuantity;
 import com.cfin.prescriptioninventory.dtos.PharmacyDTO;
 import com.cfin.prescriptioninventory.models.Medicine;
 import com.cfin.prescriptioninventory.models.Pharmacy;
+import com.cfin.prescriptioninventory.models.Prescription;
+import com.cfin.prescriptioninventory.models.PrescriptionMedicine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +41,16 @@ public class Mapper {
 		List<MedicineDTO> medicineDTOList = new ArrayList<>();
 		medicines.forEach(medicine -> medicineDTOList.add(medicine2MedicineDTO(medicine)));
 		return medicineDTOList;
+	}
+
+	public static List<MedicineWithQuantity> medicineList2MedicineWithQuantityList(List<PrescriptionMedicine> prescriptionMedicines) {
+		List<MedicineWithQuantity> medicineWithQuantityList = new ArrayList<>();
+		for (PrescriptionMedicine prescriptionMedicine : prescriptionMedicines) {
+			MedicineWithQuantity medicine = new MedicineWithQuantity();
+			medicine.setMedicine(prescriptionMedicine.getMedicine());
+			medicine.setQuantity(prescriptionMedicine.getQuantity());
+			medicineWithQuantityList.add(medicine);
+		}
+		return medicineWithQuantityList;
 	}
 }
