@@ -16,13 +16,15 @@ Microservices for a Medical Prescriptions App Backend in Java (Spring, Hibernate
 	
 	ii)	in docker container bash run: `psql -U postgres`
 	
-	iii)	in postgres run: `CREATE DATABASE prescription_database;`
+	iii)	in postgres run: `CREATE DATABASE prescription_users;`
 	
-	iv)	check database is created by running: `\l` (prescription_database should appear in the table)
+	iv) 	run: `CREATE DATABASE prescription_inventory;`
 	
-	v)	run: `quit`
+	v)	check database is created by running: `\l` (prescription_database should appear in the table)
 	
-	vi)	run: `exit`
+	vi)	run: `quit`
+	
+	vii)	run: `exit`
 	
 4. Run each microservice 
 
