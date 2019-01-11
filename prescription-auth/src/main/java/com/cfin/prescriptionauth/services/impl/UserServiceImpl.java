@@ -87,4 +87,9 @@ public class UserServiceImpl implements UserService {
 
 		return true;
 	}
+
+	@Override
+	public Client getClientDetails(String email) {
+		return this.clientRepository.findByEmail(email);
+	}
 }

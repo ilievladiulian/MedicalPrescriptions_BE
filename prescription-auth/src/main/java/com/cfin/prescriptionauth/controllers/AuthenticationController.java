@@ -1,15 +1,10 @@
 package com.cfin.prescriptionauth.controllers;
 
-import com.cfin.prescriptionauth.dtos.AuthResponse;
-import com.cfin.prescriptionauth.dtos.AuthenticatedUserDTO;
-import com.cfin.prescriptionauth.dtos.ClientDTO;
-import com.cfin.prescriptionauth.dtos.UserDTO;
+import com.cfin.prescriptionauth.dtos.*;
+import com.cfin.prescriptionauth.models.Client;
 import com.cfin.prescriptionauth.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 public class AuthenticationController {
@@ -39,5 +34,10 @@ public class AuthenticationController {
 	@CrossOrigin
 	public boolean registerNewUser(@RequestBody ClientDTO clientDTO) {
 		return this.userService.registerNewUser(clientDTO);
+	}
+
+	@PostMapping("/users")
+	public Client getClientDetails(@RequestBody EmailDTO emailDTO) {
+		return this.userService.getClientDetails(emailDTO.getEmail());
 	}
 }

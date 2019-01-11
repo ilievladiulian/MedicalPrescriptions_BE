@@ -2,11 +2,9 @@ package com.cfin.prescriptioninventory.services.impl;
 
 import com.cfin.prescriptioninventory.dtos.MedicineWithQuantity;
 import com.cfin.prescriptioninventory.dtos.PrescriptionDTO;
-import com.cfin.prescriptioninventory.models.Client;
 import com.cfin.prescriptioninventory.models.Medicine;
 import com.cfin.prescriptioninventory.models.Prescription;
 import com.cfin.prescriptioninventory.models.PrescriptionMedicine;
-import com.cfin.prescriptioninventory.repositories.ClientRepository;
 import com.cfin.prescriptioninventory.repositories.MedicineRepository;
 import com.cfin.prescriptioninventory.repositories.PrescriptionMedicineRepository;
 import com.cfin.prescriptioninventory.repositories.PrescriptionRepository;
@@ -25,9 +23,6 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	private PrescriptionRepository prescriptionRepository;
 
 	@Autowired
-	private ClientRepository clientRepository;
-
-	@Autowired
 	private MedicineRepository medicineRepository;
 
 	@Autowired
@@ -35,10 +30,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public List<PrescriptionDTO> getAllPrescriptions() {
-		String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-		Client currentClient = this.clientRepository.findByEmail(currentUser);
-
-		List<Prescription> currentUserPrescriptions = this.prescriptionRepository.findByClient(currentClient);
+		List<Prescription> currentUserPrescriptions = this.prescriptionRepository.findByClientEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		List<PrescriptionDTO> response = new ArrayList<>();
 
 		for (Prescription prescription : currentUserPrescriptions) {
@@ -67,7 +59,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	@Override
 	public boolean createPrescription(PrescriptionDTO prescriptionDTO) {
 		Prescription prescription = new Prescription();
-		prescription.setClient(this.clientRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+		prescription.setClientEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		prescription.setCreationDate(prescriptionDTO.getCreationDate());
 		prescription.setDescription(prescriptionDTO.getDescription());
 		Prescription savedPrescription = this.prescriptionRepository.save(prescription);
@@ -83,7 +75,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	@Override
 	public boolean updatePrescription(PrescriptionDTO prescriptionDTO) {
 		Prescription prescription = new Prescription();
-		prescription.setClient(this.clientRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+		prescription.setClientEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		prescription.setCreationDate(prescriptionDTO.getCreationDate());
 		prescription.setDescription(prescriptionDTO.getDescription());
 		Prescription savedPrescription = this.prescriptionRepository.save(prescription);

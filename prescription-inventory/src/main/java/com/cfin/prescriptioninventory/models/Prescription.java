@@ -1,8 +1,9 @@
 package com.cfin.prescriptioninventory.models;
 
+import com.cfin.prescriptioninventory.dtos.Client;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Prescription {
@@ -11,9 +12,7 @@ public class Prescription {
 	private Long id;
 
 	private LocalDateTime creationDate;
-
-	@ManyToOne
-	private Client client;
+	private String clientEmail;
 
 	private String description;
 
@@ -33,19 +32,19 @@ public class Prescription {
 		this.creationDate = creationDate;
 	}
 
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getClientEmail() {
+		return clientEmail;
+	}
+
+	public void setClientEmail(String clientEmail) {
+		this.clientEmail = clientEmail;
 	}
 }
