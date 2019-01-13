@@ -4,6 +4,7 @@ import com.cfin.prescriptioninventory.dtos.OperationResponse;
 import com.cfin.prescriptioninventory.dtos.PrescriptionDTO;
 import com.cfin.prescriptioninventory.services.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class PrescriptionController {
 	@PostMapping("prescriptions")
 	@CrossOrigin
 	public OperationResponse createPrescription(@RequestBody PrescriptionDTO prescription) {
+		this.validateCreatePrescription(prescription);
 		OperationResponse operationResponse = new OperationResponse();
 		operationResponse.setOperationName("Create prescription");
 		operationResponse.setSuccess(this.prescriptionService.createPrescription(prescription));
@@ -37,6 +39,7 @@ public class PrescriptionController {
 	@PutMapping("prescriptions")
 	@CrossOrigin
 	public OperationResponse updatePrescription(@RequestBody PrescriptionDTO prescription) {
+		this.validateUpdatePrescription(prescription);
 		OperationResponse operationResponse = new OperationResponse();
 		operationResponse.setOperationName("Update prescription");
 		operationResponse.setSuccess(this.prescriptionService.updatePrescription(prescription));
@@ -50,5 +53,26 @@ public class PrescriptionController {
 		operationResponse.setOperationName("Delete prescription");
 		operationResponse.setSuccess(this.prescriptionService.deletePrescription(prescriptionId));
 		return operationResponse;
+	}
+
+	private void validateUpdatePrescription(PrescriptionDTO prescriptionDTO) {
+		if (StringUtils.isEmpty(prescriptionDTO.getMedic())) {
+			throw new RuntimeException("Prescription must have a medic");
+		}
+		if (prescriptionDTO.getId() == null) {
+			throw new RuntimeException("Cannot update prescription without an id");
+		}
+		if (prescriptionDTO.getCreationDate() == null) {
+			throw new RuntimeException("Prescription must have a creation date");
+		}
+	}
+
+	private void validateCreatePrescription(PrescriptionDTO prescriptionDTO) {
+		if (StringUtils.isEmpty(prescriptionDTO.getMedic())) {
+			throw new RuntimeException("Prescription must have a medic");
+		}
+		if (prescriptionDTO.getCreationDate() == null) {
+			throw new RuntimeException("Prescription must have a creation date");
+		}
 	}
 }
