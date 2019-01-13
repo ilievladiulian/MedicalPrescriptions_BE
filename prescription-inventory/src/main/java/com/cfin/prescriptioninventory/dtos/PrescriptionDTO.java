@@ -8,6 +8,7 @@ public class PrescriptionDTO {
 	private LocalDateTime creationDate;
 	private List<MedicineWithQuantity> medicineList;
 	private String description;
+	private String medic;
 
 	public Long getId() {
 		return id;
@@ -39,5 +40,13 @@ public class PrescriptionDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getMedic() {
+		return medic;
+	}
+
+	public void setMedic(String medic) {
+		this.medic = medic;
 	}
 }

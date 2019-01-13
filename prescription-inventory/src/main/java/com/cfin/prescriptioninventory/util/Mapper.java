@@ -23,6 +23,8 @@ public class Mapper {
 		pharmacyDTO.setOpenAt(pharmacy.getOpenAt());
 		pharmacyDTO.setName(pharmacy.getName());
 		pharmacyDTO.setMedicineList(medicineDTOList);
+		pharmacyDTO.setLatitude(pharmacy.getLatitude());
+		pharmacyDTO.setLongitude(pharmacy.getLongitude());
 		return pharmacyDTO;
 	}
 

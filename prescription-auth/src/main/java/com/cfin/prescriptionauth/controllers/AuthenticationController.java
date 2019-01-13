@@ -32,11 +32,15 @@ public class AuthenticationController {
 
 	@PostMapping("/users/register")
 	@CrossOrigin
-	public boolean registerNewUser(@RequestBody ClientDTO clientDTO) {
-		return this.userService.registerNewUser(clientDTO);
+	public OperationResponse registerNewUser(@RequestBody ClientDTO clientDTO) {
+		OperationResponse response = new OperationResponse();
+		response.setOperationName("Register new user");
+		response.setSuccess(this.userService.registerNewUser(clientDTO));
+		return response;
 	}
 
 	@PostMapping("/users")
+	@CrossOrigin
 	public Client getClientDetails(@RequestBody EmailDTO emailDTO) {
 		return this.userService.getClientDetails(emailDTO.getEmail());
 	}

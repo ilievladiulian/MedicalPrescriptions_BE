@@ -15,6 +15,7 @@ public class Prescription {
 	private String clientEmail;
 
 	private String description;
+	private String medic;
 
 	public Long getId() {
 		return id;
@@ -46,5 +47,13 @@ public class Prescription {
 
 	public void setClientEmail(String clientEmail) {
 		this.clientEmail = clientEmail;
+	}
+
+	public String getMedic() {
+		return medic;
+	}
+
+	public void setMedic(String medic) {
+		this.medic = medic;
 	}
 }

@@ -51,15 +51,16 @@ public class InventoryServiceImpl implements InventoryService {
 		Map<Long, List<MedicineDTO>> pharmacyMedicineMap = new HashMap<>();
 
 		for (MedicineDTO medicineDTO : medicineDTOList) {
-			List<Inventory> inventoryList = this.inventoryRepository.findByMedicineName(medicineDTO.getName());
+			List<Inventory> inventoryList = this.inventoryRepository.findByMedicineNameContainingIgnoreCase(medicineDTO.getName());
+			Medicine medicine = this.medicineRepository.findByNameContainingIgnoreCase(medicineDTO.getName());
 			inventoryList.forEach(inventory -> {
 				Long pharmacyId = inventory.getPharmacy().getId();
 				if (pharmacyMedicineMap.containsKey(inventory.getPharmacy().getId())) {
-					pharmacyMedicineMap.get(pharmacyId).add(medicineDTO);
+					pharmacyMedicineMap.get(pharmacyId).add(Mapper.medicine2MedicineDTO(medicine));
 					pharmacyMedicineMap.put(pharmacyId, pharmacyMedicineMap.get(pharmacyId));
 				} else {
 					List<MedicineDTO> medicineInInventoryList = new ArrayList<>();
-					medicineInInventoryList.add(medicineDTO);
+					medicineInInventoryList.add(Mapper.medicine2MedicineDTO(medicine));
 					pharmacyMedicineMap.put(pharmacyId, medicineInInventoryList);
 				}
 			});

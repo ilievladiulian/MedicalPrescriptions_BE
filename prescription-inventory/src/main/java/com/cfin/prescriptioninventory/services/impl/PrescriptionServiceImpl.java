@@ -39,6 +39,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 			prescriptionDTO.setCreationDate(prescription.getCreationDate());
 			prescriptionDTO.setDescription(prescription.getDescription());
 			prescriptionDTO.setMedicineList(Mapper.medicineList2MedicineWithQuantityList(this.prescriptionMedicineRepository.findByPrescription(prescription)));
+			prescriptionDTO.setMedic(prescription.getMedic());
 			response.add(prescriptionDTO);
 		}
 
@@ -53,6 +54,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 		prescriptionDTO.setCreationDate(prescription.getCreationDate());
 		prescriptionDTO.setId(prescription.getId());
 		prescriptionDTO.setMedicineList(Mapper.medicineList2MedicineWithQuantityList(this.prescriptionMedicineRepository.findByPrescription(prescription)));
+		prescriptionDTO.setMedic(prescription.getMedic());
 		return prescriptionDTO;
 	}
 
@@ -62,6 +64,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 		prescription.setClientEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		prescription.setCreationDate(prescriptionDTO.getCreationDate());
 		prescription.setDescription(prescriptionDTO.getDescription());
+		prescription.setMedic(prescriptionDTO.getMedic());
 		Prescription savedPrescription = this.prescriptionRepository.save(prescription);
 		if (savedPrescription == null) {
 			throw new RuntimeException("Could not save prescription");
@@ -78,6 +81,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 		prescription.setClientEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		prescription.setCreationDate(prescriptionDTO.getCreationDate());
 		prescription.setDescription(prescriptionDTO.getDescription());
+		prescription.setMedic(prescriptionDTO.getMedic());
 		Prescription savedPrescription = this.prescriptionRepository.save(prescription);
 		if (savedPrescription == null) {
 			throw new RuntimeException("Could not update prescription");
@@ -100,7 +104,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	private void saveMedicineListOfPrescription(Prescription savedPrescription, PrescriptionDTO prescriptionDTO) {
 		for (MedicineWithQuantity medicineWithQuantity : prescriptionDTO.getMedicineList()) {
-			Medicine medicineInPrescription = this.medicineRepository.findByName(medicineWithQuantity.getMedicine().getName());
+			Medicine medicineInPrescription = this.medicineRepository.findByNameContainingIgnoreCase(medicineWithQuantity.getMedicine().getName());
 			PrescriptionMedicine prescriptionMedicine = new PrescriptionMedicine();
 			prescriptionMedicine.setQuantity(medicineWithQuantity.getQuantity());
 			prescriptionMedicine.setMedicine(medicineInPrescription);

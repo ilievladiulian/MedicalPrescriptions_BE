@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface InventoryRepository extends CrudRepository<Inventory, Long> {
-	List<Inventory> findByMedicineName(String medicineName);
+	List<Inventory> findByMedicineNameContainingIgnoreCase(String medicineName);
 	List<Inventory> findByPharmacy(Pharmacy pharmacy);
 }

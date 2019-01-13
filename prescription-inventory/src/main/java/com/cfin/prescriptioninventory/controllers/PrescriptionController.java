@@ -13,17 +13,20 @@ public class PrescriptionController {
 	@Autowired
 	private PrescriptionService prescriptionService;
 
-	@GetMapping("prescription")
+	@GetMapping("prescriptions")
+	@CrossOrigin
 	public List<PrescriptionDTO> getPrescriptions() {
 		return this.prescriptionService.getAllPrescriptions();
 	}
 
-	@GetMapping("prescription/{id}")
+	@GetMapping("prescriptions/{id}")
+	@CrossOrigin
 	public PrescriptionDTO getPrescription(@PathVariable(name = "id") Long prescriptionId) {
 		return this.prescriptionService.getPrescription(prescriptionId);
 	}
 
-	@PostMapping("prescription")
+	@PostMapping("prescriptions")
+	@CrossOrigin
 	public OperationResponse createPrescription(@RequestBody PrescriptionDTO prescription) {
 		OperationResponse operationResponse = new OperationResponse();
 		operationResponse.setOperationName("Create prescription");
@@ -31,7 +34,8 @@ public class PrescriptionController {
 		return operationResponse;
 	}
 
-	@PutMapping("prescription")
+	@PutMapping("prescriptions")
+	@CrossOrigin
 	public OperationResponse updatePrescription(@RequestBody PrescriptionDTO prescription) {
 		OperationResponse operationResponse = new OperationResponse();
 		operationResponse.setOperationName("Update prescription");
@@ -39,7 +43,8 @@ public class PrescriptionController {
 		return operationResponse;
 	}
 
-	@DeleteMapping("prescription/{id}")
+	@DeleteMapping("prescriptions/{id}")
+	@CrossOrigin
 	public OperationResponse deletePrescription(@PathVariable(name = "id") Long prescriptionId) {
 		OperationResponse operationResponse = new OperationResponse();
 		operationResponse.setOperationName("Delete prescription");

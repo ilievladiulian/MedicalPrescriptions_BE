@@ -25,6 +25,9 @@ public class DataBeans {
 
 	@PostConstruct
 	public void init() {
+		this.inventoryRepository.deleteAll();
+		this.medicineRepository.deleteAll();
+		this.pharmacyRepository.deleteAll();
 		if (this.pharmacyRepository.count() < 1) {
 			this.initPharmacy();
 		}
@@ -71,6 +74,8 @@ public class DataBeans {
 		pharmacy.setName("Catena");
 		pharmacy.setOpenAt(9);
 		pharmacy.setCloseAt(18);
+		pharmacy.setLatitude("44.4400058");
+		pharmacy.setLongitude("26.0913926");
 		this.pharmacyRepository.save(pharmacy);
 
 		pharmacy = new Pharmacy();
@@ -78,6 +83,8 @@ public class DataBeans {
 		pharmacy.setCloseAt(21);
 		pharmacy.setName("Dona");
 		pharmacy.setAddress("bbbb");
+		pharmacy.setLatitude("44.4219393");
+		pharmacy.setLongitude("26.0960004");
 		this.pharmacyRepository.save(pharmacy);
 	}
 

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedicineRepository extends CrudRepository<Medicine, Long> {
 	Medicine findByName(String medicineName);
+
+	Medicine findByNameContainingIgnoreCase(String medicineName);
 }
